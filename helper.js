@@ -1,4 +1,4 @@
-const errorHandler = function(error,statusCode){
+const errorHandler = function(res,error,statusCode){
     console.log(error)
     res.status(statusCode).json({error,})
     }

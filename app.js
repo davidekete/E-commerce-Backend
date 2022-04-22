@@ -26,7 +26,6 @@ mongoose
     console.log(err);
   });
 
-
 //handling CORS error
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
