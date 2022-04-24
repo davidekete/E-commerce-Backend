@@ -1,21 +1,20 @@
-const Product = require("../models/productSchema");
-const errorHandler = require("../../helper");
+/* eslint-disable no-underscore-dangle */
+const Product = require('../models/productSchema');
+const errorHandler = require('../../helper');
 
-exports.getAllProducts = (req, res, next) => {
+exports.getAllProducts = (req, res) => {
   Product.find()
     .exec()
     .then((docs) => {
       const response = {
         count: docs.length,
-        products: docs.map((doc) => {
-          return {
-            doc,
-            reqest: {
-              type: "GET",
-              url: `http://localhost:${process.env.PORT}/products/${doc._id}`,
-            },
-          };
-        }),
+        products: docs.map((doc) => ({
+          doc,
+          reqest: {
+            type: 'GET',
+            url: `http://localhost:${process.env.PORT}/products/${doc._id}`,
+          },
+        })),
       };
       res.send(response);
     })
@@ -24,7 +23,7 @@ exports.getAllProducts = (req, res, next) => {
     });
 };
 
-exports.createNewProduct = (req, res, next) => {
+exports.createNewProduct = (req, res) => {
   const product = new Product(req.body);
 
   product
@@ -32,7 +31,7 @@ exports.createNewProduct = (req, res, next) => {
     .then((result) => {
       console.log(result);
       res.status(201).json({
-        message: "Product Created successfully",
+        message: 'Product Created successfully',
         createdProduct: result,
       });
     })
@@ -41,37 +40,38 @@ exports.createNewProduct = (req, res, next) => {
     });
 };
 
-exports.getOneProduct = (req, res, next) => {
+exports.getOneProduct = (req, res) => {
   const id = req.params.productId;
 
   Product.findById(id, (error, result) => {
     if (result) res.send(result);
-    if (error) res.status(404).json({ message: `product not found` });
+    if (error) res.status(404).json({ message: 'product not found' });
   });
 };
 
-exports.patchProduct = (req, res, next) => {
+exports.patchProduct = (req, res) => {
   const id = req.params.productId;
 
   Product.findByIdAndUpdate(id, req.body, (err, doc) => {
     if (doc) {
       res.json({
-        message: `Product Updated Succesfully`,
+        message: 'Product Updated Succesfully',
         Details: doc,
       });
     }
-    if (err)
+    if (err) {
       res.status(500).json({
-        error: `product does not exist`,
+        error: 'product does not exist',
       });
+    }
   });
 };
 
-exports.deleteProduct = (req, res, next) => {
+exports.deleteProduct = (req, res) => {
   const id = req.params.productId;
 
-  let product = Product.findById(id);
-  if (!product) res.status(404).json({ message: `product not found` });
+  const product = Product.findById(id);
+  if (!product) res.status(404).json({ message: 'product not found' });
 
   Product.findByIdAndDelete(id, (error, result) => {
     if (result) {

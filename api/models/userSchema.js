@@ -1,28 +1,31 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const { isEmail } = require('validator');
 
 const userSchema = mongoose.Schema({
-  fullName:{
+  fullName: {
     type: String,
-    required: true
+    required: true,
   },
 
   email: {
     type: String,
     required: true,
     unique: true,
-    match:
-      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+    validate: [isEmail, 'Please Enter a valid email'],
   },
 
-  phoneNumber:{
+  phoneNumber: {
     type: Number,
     required: true,
+    min: 11,
+    max: 14,
   },
 
   password: {
     type: String,
     required: true,
+    minlength: 6,
   },
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

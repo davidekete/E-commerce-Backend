@@ -1,23 +1,23 @@
-const Order = require("../models/orderSchema");
-const Product = require("../models/productSchema");
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-shadow */
+const Order = require('../models/orderSchema');
+const Product = require('../models/productSchema');
 
-const errorHandler = require("../../helper");
+const errorHandler = require('../../helper');
 
-exports.getAllOrders = (req, res, next) => {
+exports.getAllOrders = (req, res) => {
   Order.find()
     .exec()
     .then((docs) => {
       const response = {
         count: docs.length,
-        products: docs.map((doc) => {
-          return {
-            doc,
-            reqest: {
-              type: "GET",
-              url: `http://localhost:${process.env.PORT}/orders/${doc._id}`,
-            },
-          };
-        }),
+        products: docs.map((doc) => ({
+          doc,
+          reqest: {
+            type: 'GET',
+            url: `http://localhost:${process.env.PORT}/orders/${doc._id}`,
+          },
+        })),
       };
       res.send(response);
     })
@@ -26,10 +26,10 @@ exports.getAllOrders = (req, res, next) => {
     });
 };
 
-exports.addNewOrder = (req, res, next) => {
+exports.addNewOrder = (req, res) => {
   const id = req.body.productId;
   Product.findById(id, (error, result) => {
-    if (error) res.status(404).json({ message: `Product not found` });
+    if (error) res.status(404).json({ message: 'Product not found' });
     if (result) {
       const order = new Order({
         product: result._id,
@@ -44,7 +44,7 @@ exports.addNewOrder = (req, res, next) => {
         .then((result) => {
           console.log(result);
           res.status(201).json({
-            message: "Order Created successfully",
+            message: 'Order Created successfully',
             createdProduct: result,
           });
         })
@@ -55,7 +55,7 @@ exports.addNewOrder = (req, res, next) => {
   });
 };
 
-exports.getSingleOrder = (req, res, next) => {
+exports.getSingleOrder = (req, res) => {
   const id = req.params.orderId;
 
   Order.findById(id, (error, result) => {
@@ -68,7 +68,7 @@ exports.getSingleOrder = (req, res, next) => {
   });
 };
 
-exports.deleteOrder = (req, res, next) => {
+exports.deleteOrder = (req, res) => {
   const id = req.params.orderId;
 
   Order.findByIdAndDelete(id, (error, result) => {
@@ -77,7 +77,7 @@ exports.deleteOrder = (req, res, next) => {
     }
     if (result) {
       res.json({
-        message: ` Order deleted Successfully`,
+        message: ' Order deleted Successfully',
         details: result,
       });
     }

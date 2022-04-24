@@ -11,11 +11,18 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.0",
     "morgan": "^1.10.0",
-    "multer": "^1.4.4"
+    "multer": "^1.4.4",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
   }
 }
