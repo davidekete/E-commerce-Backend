@@ -81,5 +81,6 @@ exports.deleteOrder = (req, res) => {
         details: result,
       });
     }
+    res.status(500).json({ message: 'could not process request' });
   });
 };

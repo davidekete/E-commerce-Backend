@@ -16,9 +16,7 @@ app.use(bodyParser.json());
 
 // env variables
 const dbUri = process.env.MONGO_URI;
-const port = process.env.PORT || 3000;
-
-app.listen(port);
+const port = process.env.PORT;
 
 // connectiong to db
 mongoose
@@ -31,7 +29,7 @@ mongoose
   });
 
 // handling CORS error
-app.use(cors);
+app.use(cors());
 
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
@@ -47,4 +45,6 @@ app.use((error, req, res) => {
   res.status(error.status || 500).json({ error: error.message });
 });
 
-module.exports = app;
+module.exports = app.listen(port, () => {
+  console.log('port running');
+});

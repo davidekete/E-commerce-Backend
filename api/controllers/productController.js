@@ -12,7 +12,7 @@ exports.getAllProducts = (req, res) => {
           doc,
           reqest: {
             type: 'GET',
-            url: `http://localhost:${process.env.PORT}/products/${doc._id}`,
+            url: `http://${req.hostname}:${process.env.PORT}/products/${doc._id}`,
           },
         })),
       };
@@ -29,7 +29,6 @@ exports.createNewProduct = (req, res) => {
   product
     .save()
     .then((result) => {
-      console.log(result);
       res.status(201).json({
         message: 'Product Created successfully',
         createdProduct: result,
@@ -70,15 +69,12 @@ exports.patchProduct = (req, res) => {
 exports.deleteProduct = (req, res) => {
   const id = req.params.productId;
 
-  const product = Product.findById(id);
-  if (!product) res.status(404).json({ message: 'product not found' });
-
   Product.findByIdAndDelete(id, (error, result) => {
     if (result) {
       res.json({
         message: `Product ${id} deleted successfully`,
       });
-      if (error) errorHandler(res, error, 404);
     }
+    if (error) errorHandler(res, error, 404);
   });
 };
