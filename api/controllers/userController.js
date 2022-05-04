@@ -25,10 +25,10 @@ exports.signUp = (req, res) => {
           message: 'User Created',
         });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
         res.status(500).json({
-          error: err,
+          error,
         });
       });
   });
