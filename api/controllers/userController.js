@@ -26,7 +26,6 @@ exports.signUp = (req, res) => {
         });
       })
       .catch((error) => {
-        console.log(error);
         res.status(500).json({
           error,
         });
@@ -72,7 +71,7 @@ exports.login = (req, res) => {
       });
     })
     .catch((error) => {
-      console.log(error);
+      res.send(error);
     });
 };
 
@@ -85,7 +84,6 @@ exports.deleteUser = (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({
         err,
       });
