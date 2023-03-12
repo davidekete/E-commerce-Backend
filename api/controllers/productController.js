@@ -30,7 +30,7 @@ exports.createNewProduct = (req, res) => {
     .save()
     .then((result) => {
       res.status(201).json({
-        message: 'Product Created successfully',
+        message: 'Product created successfully',
         createdProduct: result,
       });
     })
@@ -44,7 +44,7 @@ exports.getOneProduct = (req, res) => {
 
   Product.findById(id, (error, result) => {
     if (result) res.send(result);
-    if (error) res.status(404).json({ message: 'product not found' });
+    if (error) res.status(404).json({ message: 'Product not found' });
   });
 };
 
@@ -54,13 +54,13 @@ exports.patchProduct = (req, res) => {
   Product.findByIdAndUpdate(id, req.body, (err, doc) => {
     if (doc) {
       res.json({
-        message: 'Product Updated Succesfully',
+        message: 'Product updated succesfully',
         Details: doc,
       });
     }
     if (err) {
       res.status(500).json({
-        error: 'product does not exist',
+        error: 'Product does not exist',
       });
     }
   });
